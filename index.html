@@ -99,7 +99,30 @@ Random Movie
 
 </div>
 
+
+
 <script>
+
+let movies=[
+"Coraline",
+"Interstellar",
+"Nosferatu",
+"Spirited Away",
+"The Lord of the Rings",
+"Howl's Moving Castle",
+"Pan's Labyrinth",
+"The Crow"
+];
+
+function randomMovie(){
+
+let random=Math.floor(Math.random()*movies.length);
+
+document.getElementById("movie").innerText=
+movies[random];
+
+}
+
 
 let ideas=[
 "Watch a movie together 🎬",
