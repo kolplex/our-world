@@ -109,3 +109,4 @@ document.getElementById("poster").src =
 "https://image.tmdb.org/t/p/w500"+movie.poster_path;
 
 }
+getMovie();
