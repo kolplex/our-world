@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our World ❤️</title>
+
+<style>
+body{
+background:#121018;
+color:white;
+font-family:Arial,sans-serif;
+text-align:center;
+padding:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+}
+
+.card{
+background:#1d1828;
+padding:20px;
+margin:20px 0;
+border-radius:20px;
+box-shadow:0 0 15px rgba(255,255,255,.1);
+}
+
+button{
+background:#7c4dff;
+border:none;
+padding:15px;
+color:white;
+font-size:16px;
+border-radius:15px;
+cursor:pointer;
+}
+
+textarea{
+width:100%;
+height:100px;
+border-radius:15px;
+padding:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>❤️ Our World ❤️</h1>
+<h2>Ahmet & Lhana</h2>
+
+<div class="card">
+<h3>🎲 Random Date Idea</h3>
+
+<p id="idea">Press the button ❤️</p>
+
+<button onclick="newIdea()">Generate</button>
+</div>
+
+
+<div class="card">
+
+<h3>💌 Love Note</h3>
+
+<textarea id="note"></textarea>
+
+<br><br>
+
+<button onclick="saveNote()">Save</button>
+
+<p id="saved"></p>
+
+</div>
+
+
+<div class="card">
+
+<h3>❓ Daily Question</h3>
+
+<p id="question"></p>
+
+</div>
+
+</div>
+
+<script>
+
+let ideas=[
+"Watch a movie together 🎬",
+"Play Terraria together 🎮",
+"Have coffee together ☕",
+"Ask each other 3 questions ❤️",
+"Listen to music together 🎵",
+"Take a walk while on call 🚶",
+"Share favorite memories 📸"
+];
+
+function newIdea(){
+let random=Math.floor(Math.random()*ideas.length);
+document.getElementById("idea").innerText=ideas[random];
+}
+
+
+let questions=[
+"What made you smile today?",
+"What's your favorite memory with me?",
+"If we were together right now, what would we do?",
+"What song reminds you of me?",
+"What do you love most about us?"
+];
+
+let randomQuestion=Math.floor(Math.random()*questions.length);
+
+document.getElementById("question").innerText=
+questions[randomQuestion];
+
+function saveNote(){
+
+localStorage.setItem(
+"loveNote",
+document.getElementById("note").value
+);
+
+document.getElementById("saved").innerText=
+"Saved ❤️";
+
+}
+
+document.getElementById("note").value=
+localStorage.getItem("loveNote") || "";
+
+</script>
+
+</body>
+</html>
