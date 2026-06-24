@@ -80,3 +80,32 @@ function updateCountdown() {
 }
 
 updateCountdown();
+
+const API_KEY = "7839bbaac4069c03fe69c550163506ac";
+
+async function getMovie(){
+
+let page = Math.floor(Math.random()*50)+1;
+
+let response = await fetch(
+`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc&page=${page}`
+);
+
+let data = await response.json();
+
+let movie =
+data.results[Math.floor(Math.random()*data.results.length)];
+
+document.getElementById("title").innerText =
+movie.title;
+
+document.getElementById("rating").innerText =
+"⭐ " + movie.vote_average;
+
+document.getElementById("overview").innerText =
+movie.overview;
+
+document.getElementById("poster").src =
+"https://image.tmdb.org/t/p/w500"+movie.poster_path;
+
+}
