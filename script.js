@@ -23,3 +23,23 @@ function randomMovie() {
 function saveNote() {
     ...
 }
+
+let reasons = [
+"Your smile 😊",
+"Your laugh ❤️",
+"Our memories 📸",
+"Your kindness 🌷",
+"The way you care 🥰",
+"Everything about you ❤️",
+"The way you make me happy 💖",
+"Your beautiful eyes ✨"
+];
+
+function whyILoveYou() {
+
+let random = Math.floor(Math.random() * reasons.length);
+
+document.getElementById("loveReason").innerText =
+reasons[random];
+
+}
