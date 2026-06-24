@@ -64,3 +64,19 @@ questions[random];
 }
 
 newQuestion();
+
+const nextMeeting = new Date("2027-01-01");
+
+function updateCountdown() {
+
+    const now = new Date();
+
+    const difference = nextMeeting - now;
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+    document.getElementById("countdown").innerText =
+    days + " days left ❤️";
+}
+
+updateCountdown();
