@@ -72,6 +72,8 @@ document.getElementById("saved").innerText=
 document.getElementById("note").value=
 localStorage.getItem("loveNote") || "";
 
+
+
 const API_KEY = "7839bbaac4069c03fe69c550163506ac";
 
 async function getMovie() {
@@ -113,5 +115,4 @@ async function getMovie() {
     }
 
 }
-
 getMovie();
