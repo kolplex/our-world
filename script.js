@@ -43,3 +43,24 @@ document.getElementById("loveReason").innerText =
 reasons[random];
 
 }
+
+let questions = [
+"What made you smile today?",
+"What's your favorite memory with me?",
+"If we were together right now, what would we do?",
+"What song reminds you of me?",
+"What do you love most about us?",
+"What's something you wish we could do together?",
+"What is one thing I do that makes you happy?"
+];
+
+function newQuestion() {
+
+let random = Math.floor(Math.random() * questions.length);
+
+document.getElementById("question").innerText =
+questions[random];
+
+}
+
+newQuestion();
