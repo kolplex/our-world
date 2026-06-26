@@ -1194,7 +1194,7 @@ function closeLightbox() {
 
 // ── SPOTIFY ─────────────────────────────────────────────────
 function changeSpotifyPlaylist() {
-  const link = prompt('Spotify playlist linkini yapıştır:\n(örn. https://open.spotify.com/playlist/xxxxx)');
+  const link = prompt('https://open.spotify.com/playlist/0kFZYyxxNFDfpF4ejm6GIL');
   if (!link) return;
   const match = link.match(/playlist\/([a-zA-Z0-9]+)/);
   if (!match) { alert('Geçerli bir Spotify playlist linki değil.'); return; }
