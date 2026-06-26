@@ -887,7 +887,7 @@
 <script>
 // ── CONFIG ─────────────────────────────────────────────────
 // TMDB API anahtarını buraya yapıştır (repo private olmalı)
-const TMDB_KEY = 'BURAYA_TMDB_ANAHTARINI_YAZ';
+const TMDB_KEY = '7839bbaac4069c03fe69c550163506ac';
 
 // ── STATE ──────────────────────────────────────────────────
 let currentFilmGenre = null;
@@ -977,7 +977,7 @@ function selectMood(btn) {
 
 // ── FILM ────────────────────────────────────────────────────
 function initFilmScreen() {
-  if (!TMDB_KEY || TMDB_KEY === 'BURAYA_TMDB_ANAHTARINI_YAZ') {
+  if (!TMDB_KEY || TMDB_KEY === '7839bbaac4069c03fe69c550163506ac') {
     document.getElementById('film-api-setup').style.display = 'block';
     document.getElementById('film-mood-section').style.display = 'none';
   } else {
@@ -996,7 +996,7 @@ function selectFilmMood(btn) {
 async function fetchFilm() {
   if (!currentFilmGenre) return;
   const key = TMDB_KEY;
-  if (!key || key === 'BURAYA_TMDB_ANAHTARINI_YAZ') return;
+  if (!key || key === '7839bbaac4069c03fe69c550163506ac') return;
 
   document.getElementById('film-loading').style.display = 'flex';
   document.getElementById('film-result').classList.remove('show');
@@ -1194,7 +1194,7 @@ function closeLightbox() {
 
 // ── SPOTIFY ─────────────────────────────────────────────────
 function changeSpotifyPlaylist() {
-  const link = prompt('Spotify playlist linkini yapıştır:\n(örn. https://open.spotify.com/playlist/xxxxx)');
+  const link = prompt('Spotify playlist linkini yapıştır:\n(örn. https://open.spotify.com/playlist/0kFZYyxxNFDfpF4ejm6GIL)');
   if (!link) return;
   const match = link.match(/playlist\/([a-zA-Z0-9]+)/);
   if (!match) { alert('Geçerli bir Spotify playlist linki değil.'); return; }
