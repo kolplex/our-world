@@ -571,6 +571,8 @@ function selectMood(btn) {
 // ── FILM ────────────────────────────────────────────────────
 function initFilmScreen() {
   const ok = TMDB_KEY && TMDB_KEY !== '7839bbaac4069c03fe69c550163506ac';
+  console.log("TMDB_KEY =", TMDB_KEY);
+console.log("OK =", ok);
   document.getElementById('film-api-setup').style.display = ok ? 'none' : 'block';
   document.getElementById('film-mood-section').style.display = ok ? 'block' : 'none';
 }
