@@ -820,7 +820,9 @@ const JSONBIN_HEADERS = {
   'X-Master-Key': JSONBIN_API_KEY ,
   'X-Bin-Versioning': 'false'
 };
-const useCloud = JSONBIN_BIN_ID !== '6a3eb765da38895dfe03d898' && JSONBIN_API_KEY !== '$2a$10$U43tcsm91jg0By819l2cEOrlLnZ1P7Osh6JvI/pMlwr6ef6Y1c6fO';
+const useCloud = 
+  JSONBIN_BIN_ID !== '6a3eb765da38895dfe03d898' &&
+  JSONBIN_API_KEY !== '$2a$10$U43tcsm91jg0By819l2cEOrlLnZ1P7Osh6JvI/pMlwr6ef6Y1c6fO';
 
 async function likeFilm() {
   if (!currentFilmData) return;
