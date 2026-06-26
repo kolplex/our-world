@@ -1,274 +1,185 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Keşfi ve İzleme Listesi</title>
-    <style>
-        :root {
-            --bg-color: #141414;
-            --text-color: #ffffff;
-            --accent-color: #e50914;
-            --card-bg: #1f1f1f;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ahmet & Lhana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{\n  --bg:#FAFAF8;--card:#F0EBE5;--border:#C9B8A8;\n  --text:#3D2B1F;--muted:#8B7355;--hover:#D4C4B5;\n  --accent:#9E7B5A;--white:#FFFFFF;\n}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;overflow:hidden;}
+#app{display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto;position:relative;}
+.screen{display:none;flex:1;overflow-y:auto;padding:20px 20px 100px 20px;-webkit-overflow-scrolling:touch;}
+.screen.active{display:block;}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
+/* ── HEADER & CLOCKS ── */
+header{margin-bottom:24px;}
+.title-area{text-align:center;margin-bottom:16px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;letter-spacing:1px;}
+.today-date{font-size:0.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
+.clocks-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.clock-card{background:var(--white);border:1px solid var(--border);padding:14px;border-radius:12px;text-align:center;}
+.clock-label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.clock-time{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+/* ── BANNER / COUNTER ── */
+.counter-banner{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;margin-bottom:24px;}
+.counter-days{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--accent);margin-bottom:4px;}
+.counter-label{font-size:0.85rem;color:var(--muted);letter-spacing:0.5px;}
 
-        h1 {
-            color: var(--accent-color);
-        }
+/* ── DAILY QUESTION ── */
+.question-box{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:24px;position:relative;}
+.q-tag{font-size:0.7rem;color:var(--accent);font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.q-text{font-size:1rem;line-height:1.4;margin-bottom:12px;font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;}
+.q-btn{background:none;border:none;color:var(--accent);font-size:0.85rem;cursor:pointer;font-weight:500;padding:0;}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+/* ── MOOD SELECTOR ── */
+.mood-section{margin-bottom:24px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:12px;font-weight:500;}
+.mood-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.mood-btn{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 6px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.mood-btn:hover, .mood-btn.active{background:var(--card);border-color:var(--accent);}
+.mood-emoji{font-size:1.4rem;margin-bottom:4px;}
+.mood-text{font-size:0.75rem;color:var(--muted);}
+.mood-recommendations{margin-top:14px;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;display:none;}
+.rec-title{font-size:0.85rem;font-weight:500;margin-bottom:6px;color:var(--accent);}
+.rec-item{font-size:0.85rem;line-height:1.4;color:var(--text);margin-bottom:4px;}
 
-        .section-title {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-top: 40px;
-        }
+/* ── NAV BAR ── */
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--white);border-top:1px solid var(--border);display:flex;height:68px;padding-bottom:env(safe-area-inset-bottom);z-index:100;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:none;border:none;color:var(--muted);cursor:pointer;font-family:inherit;transition:color 0.2s;}
+.nav-item.active{color:var(--accent);}
+.nav-icon{font-size:1.3rem;margin-bottom:2px;}
+.nav-label{font-size:0.7rem;font-weight:500;letter-spacing:0.5px;}
 
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
+/* ── CINEMA TAB ── */
+.search-wrapper{display:flex;gap:8px;margin-bottom:20px;}
+.search-input{flex:1;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:inherit;font-size:0.9rem;}
+.search-input:focus{outline:none;border-color:var(--accent);}
+.search-btn{background:var(--accent);color:var(--white);border:none;border-radius:10px;padding:0 16px;cursor:pointer;font-weight:500;}
+.movie-results{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.movie-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;}
+.movie-poster{aspect-ratio:2/3;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative;overflow:hidden;}
+.movie-poster img{width:100%;height:100%;object-fit:cover;}
+.movie-info{padding:10px;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.movie-title{font-size:0.85rem;font-weight:500;line-height:1.3;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.movie-meta{font-size:0.75rem;color:var(--muted);}
+.movie-action{background:none;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.75rem;padding:6px;margin-top:8px;cursor:pointer;width:100%;transition:all 0.2s;font-family:inherit;}
+.movie-action:hover{background:var(--card);border-color:var(--accent);color:var(--accent);}
 
-        .movie-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
+/* ── FAVORITES / WATCH LATER ── */
+.fav-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.fav-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:10px;display:flex;align-items:center;gap:12px;position:relative;}
+.fav-poster{width:45px;height:65px;background:var(--card);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;overflow:hidden;}
+.fav-poster img{width:100%;height:100%;object-fit:cover;}
+.fav-info{flex:1;}
+.fav-title{font-size:0.85rem;font-weight:500;margin-bottom:2px;}
+.fav-meta{font-size:0.75rem;color:var(--muted);}
+.fav-saved-by{font-size:0.7rem;color:var(--accent);margin-top:2px;}
+.fav-delete{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;}
 
-        .movie-card:hover {
-            transform: scale(1.05);
-        }
+/* ── MUSIC TAB ── */
+.spotify-container{margin-bottom:24px;}
+.playlist-list{display:flex;flex-direction:column;gap:10px;}
+.playlist-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:between;cursor:pointer;transition:all 0.2s;}
+.playlist-card:hover{border-color:var(--accent);background:var(--card);}
+.playlist-title{font-size:0.9rem;font-weight:500;}
 
-        .movie-card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
+/* ── NOTES & MEMORIES ── */
+.notes-grid{display:flex;flex-direction:column;gap:12px;}
+.note-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;}
+.note-text{font-size:0.9rem;line-height:1.4;margin-bottom:6px;}
+.note-meta{font-size:0.75rem;color:var(--muted);display:flex;justify-content:space-between;}
+.note-delete{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;}
+.note-form{margin-top:16px;display:flex;flex-direction:column;gap:8px;}
+.note-input{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:inherit;font-size:0.9rem;resize:none;height:80px;}
+.note-submit{background:var(--accent);color:var(--white);border:none;border-radius:10px;padding:10px;font-weight:500;cursor:pointer;}
 
-        .movie-info {
-            padding: 10px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+.memory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.memory-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;}
+.memory-emoji{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--card);}
+.memory-label{padding:8px;font-size:0.8rem;text-align:center;font-weight:500;}
 
-        .movie-title {
-            font-size: 1rem;
-            margin: 0 0 10px 0;
-            font-weight: bold;
-        }
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.ei{font-size:2rem;margin-bottom:8px;}
 
-        .btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #b80710;
-        }
-
-        .btn-remove {
-            background-color: #555;
-        }
-
-        .btn-remove:hover {
-            background-color: #333;
-        }
-
-        .loading {
-            text-align: center;
-            font-style: italic;
-            color: #888;
-        }
-    </style>
+/* ── LIGHTBOX ── */
+#lightbox{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;}
+#lightbox-img{max-width:100%;max-height:80vh;border-radius:8px;}
+#lightbox-label{color:var(--white);margin-top:12px;font-size:0.9rem;}
+</style>
 </head>
 <body>
 
-<div class="container">
+<div id="app">
+  <div id="screen-home" class="screen active">
     <header>
-        <h1>Sinema Odası</h1>
-        <p>Keşfet, Beğen ve Buluta Kaydet!</p>
+      <div class="title-area">
+        <h1>Ahmet & Lhana</h1>
+        <div class="today-date" id="today-date">—</div>
+      </div>
+      <div class="clocks-grid">
+        <div class="clock-card">
+          <div class="clock-label">Ünye</div>
+          <div class="clock-time" id="clock-unye">00:00</div>
+        </div>
+        <div class="clock-card">
+          <div class="clock-label">Amerika</div>
+          <div class="clock-time" id="clock-usa">00:00</div>
+        </div>
+      </div>
     </header>
 
-    <!-- TMDB POPÜLER FİLMLER -->
-    <h2 class="section-title">Popüler Filmler</h2>
-    <div id="loading-discover" class="loading">Filmler yükleniyor...</div>
-    <div class="movie-grid" id="discover-grid"></div>
+    <div class="counter-banner">
+      <div class="counter-days" id="counter-days">—</div>
+      <div class="counter-label">Birlikte geçen güzel gün</div>
+    </div>
 
-    <!-- JSONBIN DAHA SONRA İZLE LİSTESİ -->
-    <h2 class="section-title">Daha Sonra İzle (Bulut Listem)</h2>
-    <div id="loading-watchlist" class="loading">Listeniz buluttan çekiliyor...</div>
-    <div class="movie-grid" id="watchlist-grid"></div>
-</div>
+    <div class="question-box">
+      <div class="q-tag">Bugünün Sorusu</div>
+      <div class="q-text" id="question-text">Yükleniyor...</div>
+      <button class="q-btn" onclick="newQuestion()">Başka bir soru gör →</button>
+    </div>
 
-<script>
-    // --- GEREKLİ AYARLARINIZI BURAYA GİRİN ---
-    const TMDB_API_KEY = '7839bbaac4069c03fe69c550163506ac'; 
-    const JSONBIN_API_KEY = '$2a$10$U43tcsm91jg0By819l2cEOrlLnZ1P7Osh6JvI/pMlwr6ef6Y1c6fO'; // JSONBin Master Key veya Access Key'iniz
-    const JSONBIN_BIN_ID = '6a3eb765da38895dfe03d898';  // JSONBin Bin ID'niz
+    <div class="mood-section">
+      <div class="section-title">Şu anki modun ne?</div>
+      <div class="mood-grid">
+        <div class="mood-btn" onclick="selectMood('romantic', '🌹')">
+          <div class="mood-emoji">🌹</div>
+          <div class="mood-text">Romantik</div>
+        </div>
+        <div class="mood-btn" onclick="selectMood('cozy', '☕')">
+          <div class="mood-emoji">☕</div>
+          <div class="mood-text">Sakin</div>
+        </div>
+        <div class="mood-btn" onclick="selectMood('miss', '✈️')">
+          <div class="mood-emoji">✈️</div>
+          <div class="mood-text">Özlem</div>
+        </div>
+        <div class="mood-btn" onclick="selectMood('cinema', '🍿')">
+          <div class="mood-emoji">🍿</div>
+          <div class="mood-text">Sinema</div>
+        </div>
+      </div>
+      <div id="mood-rec" class="mood-recommendations">
+        <div class="rec-title" id="rec-title">Öneri</div>
+        <div id="rec-list"></div>
+      </div>
+    </div>
+  </div>
 
-    // Global İzleme Listesi Dizisi
-    let watchLaterList = [];
+  <div id="screen-cinema" class="screen">
+    <header>
+      <h1>Sinema Odası</h1>
+      <div class="today-date">Birlikte izlenecekler listesi</div>
+    </header>
 
-    // 1. TMDB'den Popüler Filmleri Çekme
-    async function fetchDiscoverMovies() {
-        const url = `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=tr-TR&page=1`;
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            document.getElementById('loading-discover').style.display = 'none';
-            displayDiscoverMovies(data.results);
-        } catch (error) {
-            console.error("TMDB Verisi çekilemedi:", error);
-            document.getElementById('loading-discover').innerText = "Filmler yüklenirken bir hata oluştu.";
-        }
-    }
+    <div class="search-wrapper">
+      <input type="text" id="movie-search" class="search-input" placeholder="Film adı yaz..." onkeypress="if(event.key==='Enter')searchMovies()">
+      <button class="search-btn" onclick="searchMovies()">Ara</button>
+    </div>
 
-    // Popüler Filmleri Ekrana Basma
-    function displayDiscoverMovies(movies) {
-        const grid = document.getElementById('discover-grid');
-        grid.innerHTML = '';
-
-        movies.forEach(movie => {
-            const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=Resim+Yok';
-            
-            const card = document.createElement('div');
-            card.className = 'movie-card';
-            card.innerHTML = `
-                <img src="${posterPath}" alt="${movie.title}">
-                <div class="movie-info">
-                    <p class="movie-title">${movie.title}</p>
-                    <button class="btn" onclick="addToWatchLater(${movie.id}, '${movie.title.replace(/'/g, "\\'")}', '${movie.poster_path}')">Listeye Ekle</button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // 2. JSONBin'den Kayıtlı Listeyi Çekme (GET)
-    async function loadWatchLaterList() {
-        const url = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`;
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-Master-Key': JSONBIN_API_KEY
-                }
-            });
-            const data = await response.json();
-            // JSONBin v3 formatında veri "record" anahtarı altında gelir
-            watchLaterList = data.record || [];
-            document.getElementById('loading-watchlist').style.display = 'none';
-            displayWatchList();
-        } catch (error) {
-            console.error("JSONBin'den liste alınamadı:", error);
-            document.getElementById('loading-watchlist').innerText = "Kayıtlı listeniz yüklenemedi.";
-        }
-    }
-
-    // 3. JSONBin'e Güncel Listeyi Kaydetme (PUT)
-    async function saveWatchLaterList() {
-        const url = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-        try {
-            await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': JSONBIN_API_KEY
-                },
-                body: JSON.stringify(watchLaterList)
-            });
-            console.log("Liste buluta başarıyla kaydedildi.");
-        } catch (error) {
-            console.error("Buluta kaydetme hatası:", error);
-            alert("Değişiklikler buluta kaydedilirken bir hata oluştu!");
-        }
-    }
-
-    // İzleme Listesini Ekrana Basma
-    function displayWatchList() {
-        const grid = document.getElementById('watchlist-grid');
-        grid.innerHTML = '';
-
-        if (watchLaterList.length === 0) {
-            grid.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">Listenizde henüz film yok.</p>';
-            return;
-        }
-
-        watchLaterList.forEach(movie => {
-            const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=Resim+Yok';
-            
-            const card = document.createElement('div');
-            card.className = 'movie-card';
-            card.innerHTML = `
-                <img src="${posterPath}" alt="${movie.title}">
-                <div class="movie-info">
-                    <p class="movie-title">${movie.title}</p>
-                    <button class="btn btn-remove" onclick="removeFromWatchLater(${movie.id})">Listeden Kaldır</button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // Listeye Yeni Film Ekleme Fonksiyonu
-    async function addToWatchLater(id, title, poster_path) {
-        // Film zaten listede var mı kontrolü
-        if (watchLaterList.some(movie => movie.id === id)) {
-            alert("Bu film zaten izleme listenizde var!");
-            return;
-        }
-
-        const newMovie = { id, title, poster_path };
-        watchLaterList.push(newMovie); // Yerel diziyi güncelle
-        displayWatchList();            // Arayüzü güncelle
-        await saveWatchLaterList();    // Sunucuyu güncelle
-    }
-
-    // Listeden Film Çıkarma Fonksiyonu
-    async function removeFromWatchLater(id) {
-        watchLaterList = watchLaterList.filter(movie => movie.id !== id); // Yerel diziden sil
-        displayWatchList();                 // Arayüzü güncelle
-        await saveWatchLaterList();         // Sunucuyu güncelle
-    }
-
-    // Sayfa Açıldığında Çalışacak Fonksiyonlar
-    window.onload = function() {
-        fetchDiscoverMovies();
-        loadWatchLaterList();
-    };
-</script>
-
-</body>
-</html>
+    <div id="search-results-wrapper" style="display:none; margin-bottom:30px
