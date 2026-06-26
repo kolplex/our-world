@@ -909,7 +909,7 @@ function renderFavorites(favs) {
   const c = document.getElementById('favorites-list');
   if (!c) return;
   if (!favs || !favs.length) {
-    c.innerHTML = '<div class="empty"><div class="ei">🎬</div><p>Henüz beğenilen film yok.<br>Film bölümünden ♥ Kaydet\'e bas.</p></div>';
+    c.innerHTML = '<div class="empty"><div class="ei">🎬</div><p>Henüz beğenilen film yok.<br>Film bölümünden ♥ Kaydete bas.</p></div>';
     return;
   }
   c.innerHTML = favs.map(f => `
